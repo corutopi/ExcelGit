@@ -125,6 +125,69 @@ End Function
 
 
 
+'*******************************************************************************
+'--comment_version_0.1.0------------------
+'データ文字列をGlob形式フォーマットで分割して配列にする.
+'今のところアスタリスク(*)区切りでセパレータを判別するのみで, 正規表現は使えない.
+'
+'-----------------------------------------
+'引数       :data           :format形式に沿った文字列
+'引数       :format         :glob形式フォーマット
+'戻り値     :戻り値の内容
+'-----------------------------------------
+'--更新履歴-------------------------------
+'20201027   :xxx            :新規作成
+'*******************************************************************************
+Public Function GetGlobList(ByVal data As String, ByVal format As String)
+    Dim re() As String
+    Dim sepalator
+    Dim i As Long
+    Dim s As Long   'start pointer
+    Dim e As Long   'end pointer
+    
+    sepalator = Split(format, "*")
+    s = InStr(data, sepalator(i)) + Len(sepalator(i))
+    For i = 1 To UBound(sepalator)
+        e = InStr(s, data, sepalator(i))
+        If sepalator(i) = "" And i = UBound(sepalator) Then
+            e = Len(data) + 1
+        End If
+        If e > 0 Then
+            If i = 1 Then
+                ReDim re(0)
+            Else
+                ReDim Preserve re(UBound(re) + 1)
+            End If
+            
+            re(UBound(re)) = Mid(data, s, e - s)
+            s = e + Len(sepalator(i))
+        Else
+            Err.Raise 9999, Description:="data don't fit the format."
+        End If
+    Next
+    GetGlobList = re
+End Function
+
+
+
+Public Sub test()
+    Dim tmp
+    Dim t
+    tmp = GetGlobList("aaa bbb ccc", "* * *")
+    For Each t In tmp
+        Debug.Print t
+    Next
+    Debug.Print "------"
+    tmp = GetGlobList("<aaa> bbb" & vbCrLf & " [ccc]", "<*> * [*]")
+    For Each t In tmp
+        Debug.Print t
+    Next
+    Debug.Print "------"
+    tmp = GetGlobList("<aaa> bbb [ccc] {ddd}", "<*> * [*]")
+    For Each t In tmp
+        Debug.Print t
+    Next
+End Sub
 
 
 

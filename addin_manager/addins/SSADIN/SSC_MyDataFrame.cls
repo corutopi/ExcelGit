@@ -259,14 +259,14 @@ End Function
 '--更新履歴-------------------------------
 'yyyymmdd   :xxx            :[更新内容]
 '*******************************************************************************
-Public Sub AddRow(Data, Optional Before, Optional After)
+Public Sub AddRow(data, Optional Before, Optional After)
     '@todo 自クラス型のデータが連携された場合の動作
     Dim tmpColl As New Collection
     Dim tmpColl2 As New Collection
     Dim i As Long
     
     'データのチェック
-    Set tmpColl = ToCollection(Data)
+    Set tmpColl = ToCollection(data)
     If tmpColl Is Nothing Then
         Err.Raise Number:=CP_ERR_NUMBER, _
                   Description:=CP_ERR_MSG_ArrayData

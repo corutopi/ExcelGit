@@ -23,7 +23,7 @@ Public Sub SA_名前定義書き出し()
     
     r = Selection.Item(1).row
     c = Selection.Item(1).column
-    For Each n In ActiveWorkbook.Names
+    For Each n In ActiveWorkbook.names
         ActiveSheet.Cells(r, c + 0).Value = n.Name
         ActiveSheet.Cells(r, c + 1).Value = "'" & n.RefersTo
         ActiveSheet.Cells(r, c + 2).Value = "'" & n.Comment
@@ -55,7 +55,7 @@ Public Sub SA_名前定義書き出し_シートオンリー()
     
     r = Selection.Item(1).row
     c = Selection.Item(1).column
-    For Each n In ActiveWorkbook.Names
+    For Each n In ActiveWorkbook.names
         If InStr(n.RefersTo, "=" & s.Name & "!") = 1 _
                 Or InStr(n.RefersTo, "='" & s.Name & "'!") = 1 Then
             s.Cells(r, c + 0).Value = n.Name
@@ -94,7 +94,7 @@ Public Sub SA_名前定義刷新()
     If MsgBox("現在設定されている名前定義をすべて破棄し、選択中のセル情報をもとに名前定義を作り直します。" _
                 & vbNewLine & "よろしいですか？", vbYesNo) = vbNo Then Exit Sub
                 
-    For Each n In ActiveWorkbook.Names
+    For Each n In ActiveWorkbook.names
         n.Delete
     Next
     
@@ -102,7 +102,7 @@ Public Sub SA_名前定義刷新()
     For r = 1 To Selection.Rows.Count
         If Selection.Item(r, c).Value <> "" _
                 And Selection.Item(r, c + 1).Value <> "" Then
-            ActiveWorkbook.Names.Add Name:=Selection.Item(r, c).Value _
+            ActiveWorkbook.names.Add Name:=Selection.Item(r, c).Value _
                                         , RefersTo:=Selection.Item(r, c + 1).Value
         End If
     Next
@@ -140,7 +140,7 @@ Public Sub SA_名前定義追加()
     For r = 1 To Selection.Rows.Count
         If Selection.Item(r, c).Value <> "" _
                 And Selection.Item(r, c + 1).Value <> "" Then
-            ActiveWorkbook.Names.Add Name:=Selection.Item(r, c).Value _
+            ActiveWorkbook.names.Add Name:=Selection.Item(r, c).Value _
                                         , RefersTo:=Selection.Item(r, c + 1).Value
         End If
     Next
@@ -168,7 +168,7 @@ Public Sub SA_名前定義削除()
     
     c = 1
     For r = 1 To Selection.Rows.Count
-        For Each n In ActiveWorkbook.Names
+        For Each n In ActiveWorkbook.names
             If n.Name = Selection.Item(r, 1).Value Then
                 n.Delete
                 Exit For
