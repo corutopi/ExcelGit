@@ -10,7 +10,9 @@ Option Explicit
 '-----------------------------------------
 '--更新履歴-------------------------------
 'yyyymmdd   :xxx            :[更新内容]
-'20180318   :sueki          :新規作成
+'20210305   :sueki          : add single quate before NameDefinition name
+'                           : for Sheet names that inclued symbols.
+'20180318   :sueki          : create
 '*******************************************************************************
 Public Sub SA_名前定義書き出し()
     Dim n As Name
@@ -24,7 +26,7 @@ Public Sub SA_名前定義書き出し()
     r = Selection.Item(1).row
     c = Selection.Item(1).column
     For Each n In ActiveWorkbook.names
-        ActiveSheet.Cells(r, c + 0).Value = n.Name
+        ActiveSheet.Cells(r, c + 0).Value = "'" & n.Name
         ActiveSheet.Cells(r, c + 1).Value = "'" & n.RefersTo
         ActiveSheet.Cells(r, c + 2).Value = "'" & n.Comment
         r = r + 1
@@ -40,7 +42,9 @@ End Sub
 '-----------------------------------------
 '--更新履歴-------------------------------
 'yyyymmdd   :xxx            :[更新内容]
-'20180318   :sueki          :新規作成
+'20210305   :sueki          : add single quate before NameDefinition name
+'                           : for Sheet names that inclued symbols.
+'20180318   :sueki          : create
 '*******************************************************************************
 Public Sub SA_名前定義書き出し_シートオンリー()
     Dim s As Worksheet
@@ -58,7 +62,7 @@ Public Sub SA_名前定義書き出し_シートオンリー()
     For Each n In ActiveWorkbook.names
         If InStr(n.RefersTo, "=" & s.Name & "!") = 1 _
                 Or InStr(n.RefersTo, "='" & s.Name & "'!") = 1 Then
-            s.Cells(r, c + 0).Value = n.Name
+            s.Cells(r, c + 0).Value = "'" & n.Name
             s.Cells(r, c + 1).Value = "'" & n.RefersTo
             s.Cells(r, c + 2).Value = "'" & n.Comment
             r = r + 1
